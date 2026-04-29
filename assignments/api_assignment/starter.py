@@ -17,7 +17,7 @@ if not API_KEY:
     raise ValueError("API key not found. Did you copy .env.example to .env?")
 
 # TODO: Replace with your API's base URL
-BASE_URL = "https://api.example.com/v1"
+BASE_URL = "https://api-inference.huggingface.co/models/gpt2"
 
 # update or extend per call if your API requires it
 HEADERS = {

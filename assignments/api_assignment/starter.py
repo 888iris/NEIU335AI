@@ -36,13 +36,12 @@ def divider(label):
 def call_one_get():
     divider("CALL 1 — GET Request")
 
-    url = f"{BASE_URL}/resource"
-    params = {"query": "python", "limit": 5}  # TODO: update these
+    url = "https://huggingface.co/api/models/gpt2"
 
-    response = requests.get(url, headers=HEADERS, params=params)
+    response = requests.get(url)
 
     if response.status_code == 200:
-        print(json.dumps(response.json(), indent=2))
+        print(json.dumps(response.json(), indent=2)[:1000])
     else:
         print(f"[ERROR] {response.status_code}: {response.text}")
 
@@ -53,17 +52,16 @@ def call_one_get():
 def call_two_post():
     divider("CALL 2 — POST Request")
 
-    url = f"{BASE_URL}/predict"
+    url = BASE_URL
     payload = {
-        "input": "What is machine learning?",  # TODO: update
-        "model": "default",                    # TODO: update
+        "inputs": "What is machine learning?"  # TODO: update           
     }
 
     response = requests.post(url, headers=HEADERS, json=payload)
 
     if response.status_code == 200:
         data = response.json()
-        print(data.get("result", json.dumps(data, indent=2)))  # TODO: update key
+        print(json.dumps(data, indent=2))
     elif response.status_code == 401:
         print("[ERROR] 401 Unauthorized — check your API key in .env")
     elif response.status_code == 429:
@@ -78,17 +76,16 @@ def call_two_post():
 def call_three_parameterized(user_input: str):
     divider(f"CALL 3 — Parameterized  |  input: '{user_input}'")
 
-    url = f"{BASE_URL}/predict"
+    url = BASE_URL
     payload = {
-        "input": user_input,  # dynamic — passed in from __main__
-        "model": "default",   # TODO: update
+        "inputs": user_input  # dynamic — passed in from __main_
     }
 
     response = requests.post(url, headers=HEADERS, json=payload)
 
     if response.status_code == 200:
         data = response.json()
-        print(data.get("result", json.dumps(data, indent=2)))  # TODO: update key
+        print(json.dumps(data, indent=2))  # TODO: update key
     elif response.status_code == 429:
         print("[ERROR] 429 Rate Limited — slow down and retry")
     else:
